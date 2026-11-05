@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Computer Bug - Game</title>
+    <meta name="author" content="Sarah-Anne Green">
+
+    <!--Name: Sarah-Anne Green
+        OPENHOUSE GAME REMAKE FOR SDNE PRESENTATION - Javascript Game, made with ZIM
+        
+        
+        REMAKE OF ASTROIDS -> REMADE INTO CROW GAME -> REMADE INTO BUG GAME
+        This game revolves around a little computer "bug" that is trying to get back home. 
+        It runs throught the ram eating bad code and avoiding ram modules. Keep the heatlth bar up
+        as long as possible to get the highest score. The game ends when the health bar reaches 0.
+        
+        ALL ART USED IS ORIGINAL, CREATED BY SARAH-ANNE GREEN FOR THIS PROJECT-->
+
+
+    <script type="module">
+
+        import zim from "https://zimjs.org/cdn/017/zim_game";
+
+        const bugFiles = [];   // create floating modules
+        for (let i = 1; i < 5; i++) {
+            bugFiles.push("module" + i + ".png");
+        }
+
+        zogy(bugFiles);
+
+        new Frame(FIT, 1024, 768, white, dark, ready, [...bugFiles, "badcode.png", "bug_nb.png", "ram_background.jpg"], "bugAssets/");
+        function ready() {
+
+            //the background
+            const ram = new Pic("ram_background.jpg")
+                .scaleTo(S)
+                .addTo();
+
+            //move the background
+            new Scroller(ram, 3, 1, true)
+
+            //make a timer
+            const timer = new Timer({
+                time: 60,
+                borderColor: dark,
+                backgroundColor: white,
+            }).pos(50, 50, RIGHT, BOTTOM);
+
+            //a container for the modules
+            const modules = new Container(H, W)
+                .addTo();
+
+            //modules go away when clicked
+            modules.on("mousedown", (e) => {
+                const module = e.target
+                module.dispose();
+            });
+
+            //how often do the modules come, and how fast
+            interval({ min: .5, max: 2.5 }, () => {
+                const module = new Pic(bugFiles)
+                    .reg(CENTER)
+                    .sca(.35)
+                    .loc(W + 300, rand(H), modules) //where they appear
+                    .animate({
+                        props: { x: -350 }, //where they disappear
+                        time: speededUp ? 5 : 11, //their speed, and the go faster speed after 30 seconds
+                        ease: "linear",
+                        call: target => { target.dispose() }
+                    })
+            });
+
+            //make badcode
+            const badcodes = [];
+
+            //how often do the badcodes come, and how fast
+            interval({ min: 2.5, max: 5 }, () => {
+                const badcode = new Pic("badcode.png")
+                    .reg(CENTER)
+                    .sca(.15)
+                    .loc(W + 300, rand(H)) //where they appear
+                    .animate({
+                        props: { x: - 350 }, //where they disappear
+                        time: rand(15),
+                        ease: "linear",
+                        call: target => {
+                            target.dispose();
+                            badcodes.splice(badcodes.indexOf(target), 1);
+                        }
+                    });
+                badcodes.push(badcode);
+
+            }, undefined, true)
+
+            //make the bug
+            const bug = new Pic("bug_nb.png")
+                .reg(CENTER)
+                .sca(.2)
+                .pos(150, 300, LEFT, 250)
+
+            //move the bug
+            new MotionController({
+                target: bug,
+                type: "keydown",
+                axis: VERTICAL,
+                ease: "linear"
+            });
+
+            let speededUp = false; // variable to make stuff go faster after 30 seconds
+            //events
+            Ticker.add(() => {
+                // modules collision check
+                modules.loop(module => {
+                    if (module.hitTestCircle(bug)) {
+                        timer.time -= 5;
+                        module.dispose();
+                    }
+                });
+
+                // badcodes collision check
+                for (let i = badcodes.length - 1; i >= 0; i--) {
+                    const badcode = badcodes[i];
+                    if (badcode.hitTestCircle(bug)) {
+                        timer.time += 5;
+                        badcode.removeFrom(); // remove from stage
+                        badcodes.splice(i, 1); // remove from array
+                    }
+                }
+
+                if (timer.time < 30 && !speededUp) {
+                    speededUp = true;
+                    modules.loop(module => {
+                        module.animate({ time: 11 }); //modules go faster after 30 seconds
+                    });
+                }
+
+                // Game Over check
+                if (timer.time <= 0) {
+                    new Pane("Game Over\n\nClick Here to try again\n\n\n\nBy: Sarah-Anne Green\ndev# littlePandaEyes", black, white)
+                        .show(() => {
+                            zgo("index.html");
+                            bug.dispose();
+                        });
+                }
+            });
+
+        }
+
+        const title = new Label("R A I N B O W  C R O W S  F L I G H T", 50, undefined, white)
+            .pos(0, 50, CENTER);
+
+
+    </script>
+
+    <style>
+
+        /* style for the copyright at the bottom right of game */
+        footer {
+            position: absolute;
+            bottom: 5vh;
+            width: 150px;
+            height: auto;
+            right: 5vw;
+        }
+
+        a {
+            color: white;
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+    <footer>
+        <address>
+            <a class="bottom_links" href="mailto:grsaraha@sheridancollege.ca">&copy;Sarah-Anne Green 2025</a>
+        </address>
+    </footer>
+
+</html>

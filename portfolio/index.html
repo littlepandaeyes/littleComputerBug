@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Adventure</title>
+    <meta name="author" content="Sarah-Anne Green">
+
+    <!--Name: Sarah-Anne Green
+        OPENHOUSE GAME REMAKE FOR SDNE PRESENTATION - Javascript Game, made with ZIM
+        
+        
+        REMAKE OF ASTROIDS -> REMADE INTO CROW GAME -> REMADE INTO BUG GAME
+        This game revolves around a little computer "bug" that is trying to get back home. 
+        It runs throught the ram eating bad code and avoiding ram modules. Keep the heatlth bar up
+        as long as possible to get the highest score. The game ends when the health bar reaches 0.
+        
+        ALL ART USED IS ORIGINAL, CREATED BY SARAH-ANNE GREEN FOR THIS PROJECT-->
+
+        <!--Why are there 2 head tags? I dont remember, but if I take it out it breaks,
+        so I'll keep both.-->
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bug Adventure - Home</title>
+        <style>
+            /*Have the ram be the background, set up font*/
+            body {
+                background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+                    url(../portfolio/bugAssets/ram_background.jpg);
+                font-family: 'Segoe UI', sans-serif;
+                text-align: center;
+                background-size: cover;
+                padding: 15px;
+                backdrop-filter: blur(3px);
+            }
+
+            /*Keep the instructions in the middle*/
+            .story {
+                max-width: 600px;
+                margin: auto;
+                z-index: 2;
+            }
+
+            /*Have little bug be on either side*/
+            .imgLeft,
+            .imgRight {
+                position: absolute;
+                bottom: 15vh;
+                width: 140px;
+                height: auto;
+            }
+
+            .imgLeft {
+                left: 10vw;
+            }
+
+            .imgRight {
+                right: 10vw;
+                transform: scaleX(-1);
+            }
+
+            /*Special style for the rules area*/
+            #rules {
+                color: white;
+                border: 2px, solid, white;
+                background-color: goldenrod;
+                margin: 5px auto;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                max-width: fit-content;
+                align-items: center;
+                justify-content: center;
+                z-index: 3;
+            }
+
+            /*Style for the button to get to the game*/
+            button {
+                font-size: 20px;
+                padding: 12px 25px;
+                margin-top: 30px;
+                border: 2px, black, solid;
+                background-color: goldenrod;
+                color: white;
+                cursor: pointer;
+                border-radius: 6px;
+            }
+
+            button:hover {
+                background-color: yellow;
+                color: black;
+            }
+
+            /*Color for the important stuff*/
+            b {
+                font-weight: bold;
+                color: red;
+            }
+
+            /* styling for the copyright at the bottom */
+            a { 
+                font-size: small;
+                color: white;
+            }
+        </style>
+    </head>
+
+<body>
+    <div class="bugLeft">
+        <img src="../portfolio/bugAssets/bug_nb.png" alt="Little Computer Bug" class="imgLeft" />
+    </div>
+    <div class="story">
+        <h1>Escape the Computer Memory with<br> <b>Little Computer Bug</b></h1>
+        <p>
+            All code is a little buggy, and <b>Little Computer Bug</b> just want to get home, but its
+            stuck in the RAM! The developers keep trying to get rid of it with testing and <u>debugging</u>, can 
+            <b>Little Computer Bug</b> escape the RAM and get back safely?
+        </p>
+        <p>
+            Help <b>Little Computer Bug</b> get back home by avoiding the RAM modules and eating the bad code
+            to extend their time in the system!
+        </p>
+        <p id="rules">
+            UP ARROW - MOVE UP<br>
+            DOWN ARROW - MOVE DOWN<br>
+            MODULES = -5 SECONDS ON TIMER<br>
+            BAD CODE = +5 SECONDS ON TIMER<br>
+        </p>
+        <button onclick="location.href='game.html'">BEGIN YOUR ESCAPE!</button>
+    </div>
+    <div>
+        <img src="../portfolio/bugAssets/bug_nb.png" alt="Little Computer Bug" class="imgRight" />
+    </div>
+</body>
+    <footer>
+        <address>
+            <a class="bottom_links" href="mailto:grsaraha@sheridancollege.ca">&copy;Sarah-Anne Green 2026</a>
+        </address>
+    </footer>
+</html>
